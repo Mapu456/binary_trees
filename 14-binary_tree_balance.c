@@ -3,29 +3,68 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_balance - counts the leaves in a binary tree
+ * height - The function Compute the "height" of a tree. Height is the number
+ * of nodes along the longest path from the root node down to
+ * the farthest leaf node.
  * @tree: pointer to the root node of the tree to traverse
- * Return: node is NULL, return 0
+ * Return: int
  */
-int binary_tree_balance(const binary_tree_t *tree)
+int height(const binary_tree_t *tree)
 {
-	int i = 0;
+	int lh;
+	int rh;
 
 	if (tree == NULL)
+		return (0);
+	if (tree->left == NULL && tree->right == NULL)
 	{
 		return (0);
 	}
-	if (tree->right != NULL && tree->left != NULL)
+	lh = height(tree->left);
+	rh = height(tree->right);
+	if (lh >= rh)
 	{
-		i += 2;
+		return (1 + lh);
 	}
-	if (tree->right != NULL || tree->left != NULL)
+	return (1 + max(height(tree->left), height(tree->right)));
+}
+/**
+ * max - returns maximum of two integers
+ * @a: int
+ * @b: int
+ * Return: int
+ */
+int max(int a, int b)
+{
+	return ((a >= b) ? a : b);
+}
+/**
+ * binary_tree_balance - measures the balance factor of a binary tree
+ * @tree: pointer to the root node of the tree to traverse
+ * Return: if node is NULL, return 0
+ */
+int binary_tree_balance(const binary_tree_t *tree)
+{
+	int r = 0, l = 0;
+
+	if (tree == NULL)
+		return (0);
+
+	if (tree->left)
 	{
-		i += -1;
+		l = (int)height(tree->left);
 	}
-	if (tree->right == NULL && tree->left == NULL)
+	else
 	{
-		i = 0;
+		l = -1;
 	}
-	return (i);
+	if (tree->right)
+	{
+		r = (int)height(tree->right);
+	}
+	else
+	{
+		r = -1;
+	}
+	return (l - r);
 }
