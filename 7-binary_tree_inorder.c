@@ -8,15 +8,15 @@
 
 void binary_tree_inorder(const binary_tree_t *tree, void (*func)(int))
 {
-    if (!tree || !func)
-        return;
+	if (!tree || !func)
+		return;
 
-    /* Transverse the left sub-tree first.*/
-    binary_tree_inorder(tree->left, func);
+	/* Transverse the left sub-tree first.*/
+	binary_tree_inorder(tree->left, func);
 
-    /* Print parent(root) node o the tree or sub-tree.*/
-    func(tree->n);
+	/* Print parent(root) node o the tree or sub-tree.*/
+	func(tree->n);
 
-    /* Transverse the right sub-tree last.*/
-    binary_tree_inorder(tree->right, func);
+	/* Transverse the right sub-tree last.*/
+	binary_tree_inorder(tree->right, func);
 }
