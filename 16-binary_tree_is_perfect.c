@@ -9,50 +9,34 @@
 
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	if (!tree || height(tree->left) != height(tree->right))
-	{
-		return (0);
-	}
-	if (tree->right && tree->left)
-	{
-		return (1);
-	}
-	return (binary_tree_is_perfect(tree->left) *
-	binary_tree_is_perfect(tree->right));
-}
-/**
- * height - The function Compute the "height" of a tree. Height is the number
- * of nodes along the longest path from the root node down to
- * the farthest leaf node.
- * @tree: pointer to the root node of the tree to traverse
- * Return: int
- */
-int height(const binary_tree_t *tree)
-{
-	int lh;
-	int rh;
 
-	if (tree == NULL)
+	if (!tree || (tree_height(tree->left) != tree_height(tree->right)))
 		return (0);
-	if (tree->left == NULL && tree->right == NULL)
-	{
-		return (0);
-	}
-	lh = height(tree->left);
-	rh = height(tree->right);
-	if (lh >= rh)
-	{
-		return (1 + lh);
-	}
-	return (1 + max(height(tree->left), height(tree->right)));
+
+	if (!tree->right && !tree->left)
+		return (1);
+
+	return (binary_tree_is_perfect(tree->left) *
+			binary_tree_is_perfect(tree->right));
 }
 /**
- * max - returns maximum of two integers
- * @a: int
- * @b: int
- * Return: int
+ * tree_height - function that measures the height of a sub-tree.
+ * @tree: root node.
+ * Return: the height of the tree or -1 if there is no tree.
  */
-int max(int a, int b)
+int tree_height(const binary_tree_t *tree)
 {
-	return ((a >= b) ? a : b);
+	int left_height = 0, right_height = 0;
+
+	if (!tree)
+		return (-1);
+
+	if (tree->left)
+		left_height = tree_height(tree->left) + 1;
+	if (tree->right)
+		right_height = tree_height(tree->right) + 1;
+
+	if (left_height >= right_height)
+		return (left_height);
+	return (right_height);
 }
